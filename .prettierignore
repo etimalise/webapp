@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+.vite
+.idea
+.vscode
+.devcontainer/devcontainer.json

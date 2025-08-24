@@ -1,13 +1,26 @@
-#.devcontainer/devcontainer.json (remove this line)
-
 {
   "name": "webapp-dev",
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "dev",
-  "workspaceFolder": "/workspace",
-  "remoteUser": "node",
-  "features": { "ghcr.io/devcontainers/features/node:1": { "version": "lts" } },
-  "containerEnv": { "VITE_TEMPLATE": "vue" },
-  "onCreateCommand": "bash -lc \"set -o pipefail; mkdir -p /workspace/logs; bash .devcontainer/scaffold.sh |& tee -a /workspace/logs/scaffold_$(date +%Y%m%d-%H%M%S).log\""
-
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "workspaceFolder": "/workspaces/webapp",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": { "installZsh": false },
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers-contrib/features/pnpm:2": { "version": "10" },
+    "ghcr.io/devcontainers/features/git:1": { "installLFS": true },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "mounts": [
+    "type=volume,source=pnpm-store,target=/home/vscode/.pnpm-store",
+    "type=volume,source=node_modules,target=/workspaces/webapp/node_modules"
+  ],
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "containerEnv": {
+    "NO_UPDATE_NOTIFIER": "1",
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0",
+    "PNPM_HOME": "/home/vscode/.pnpm"
+  },
+  "onCreateCommand": "sudo mkdir -p /home/vscode/.pnpm-store /workspaces/webapp/node_modules && sudo chown -R vscode:vscode /home/vscode/.pnpm-store /workspaces/webapp/node_modules",
+  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm install",
+  "forwardPorts": [5173]
 }
