@@ -1,0 +1,22 @@
+name: webapp-dev
+services:
+  dev:
+    container_name: webapp-dev
+    image: webapp-dev
+    build:
+      context: ./.devcontainer
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    user: "node"
+    environment:
+      - PNPM_STORE_DIR=/home/node/.pnpm-store     # where pnpm caches packages
+    volumes:
+      - ./:/workspace                             # code on host
+      - webapp_node_modules:/workspace/node_modules
+      - webapp_pnpm_store:/home/node/.pnpm-store
+    ports:
+      - "${VITE_HOST_PORT:-5173}:5173"
+    command: sleep infinity
+volumes:
+  webapp_node_modules:
+  webapp_pnpm_store:
