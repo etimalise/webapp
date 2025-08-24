@@ -1,4 +1,4 @@
-#.devcontainer/Dockerfile (remove this line)
+#.devcontainer/Dockerfile
 
 FROM node:lts
 

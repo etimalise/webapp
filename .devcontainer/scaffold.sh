@@ -69,6 +69,9 @@ fi
 - Styles: Tailwind v4 via @tailwindcss/postcss; CSS entry at `src/assets/tailwind.css`
 MD
 
+echo ">> optimizing space"
+pnpm store prune || true
+
 echo ">> sanity (non-fatal)"
 set +e
 node -v

@@ -1,3 +1,5 @@
+#.devcontainer/devcontainer.json (remove this line)
+
 {
   "name": "webapp-dev",
   "dockerComposeFile": ["../docker-compose.yml"],
