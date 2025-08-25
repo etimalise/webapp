@@ -8,6 +8,7 @@
     "-p","5173:5173"
   ],
   "workspaceFolder": "/workspaces/webapp",
+
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": { "installZsh": false },
     "ghcr.io/devcontainers/features/node:1": { "version": "20" },
@@ -15,22 +16,22 @@
     "ghcr.io/devcontainers/features/git:1": { "installLFS": true },
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+
   "mounts": [
-    "type=volume,source=pnpm-store,target=/home/vscode/.pnpm-store",
-    "type=volume,source=node_modules,target=/workspaces/webapp/node_modules"
+    "type=volume,source=pnpm-store,target=/vol/pnpm-store",
+    "type=volume,source=node_modules,target=${containerWorkspaceFolder}/node_modules"
   ],
+
   "remoteUser": "vscode",
   "updateRemoteUserUID": true,
+
   "containerEnv": {
     "NO_UPDATE_NOTIFIER": "1",
     "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0",
-    "PNPM_HOME": "/home/vscode/.pnpm"
+    "PNPM_HOME": "$HOME/.pnpm",
+    "PNPM_STORE_DIR": "/vol/pnpm-store"
   },
-  "onCreateCommand": "sudo mkdir -p /home/vscode/.pnpm-store /workspaces/webapp/node_modules && sudo chown -R vscode:vscode /home/vscode/.pnpm-store /workspaces/webapp/node_modules",
-  
-  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm -s approve-builds esbuild @tailwindcss/oxide || true && pnpm fetch && pnpm install --prefer-offline --no-frozen-lockfile",
-  
-  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm -s approve-builds esbuild @tailwindcss/oxide || true && pnpm fetch && pnpm install --prefer-offline --frozen-lockfile",
-  
+
+  "postCreateCommand": "bash .devcontainer/bootstrap.sh",
   "forwardPorts": [5173]
 }

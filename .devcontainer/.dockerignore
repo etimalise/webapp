@@ -1,0 +1,14 @@
+# Don’t send host junk into image builds
+node_modules
+.pnpm-store
+dist
+logs
+.git
+.gitignore
+.DS_Store
+.idea
+.vscode
+tmp
+workspace
+.tmp_scaffold
+.env
