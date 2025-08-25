@@ -1,6 +1,12 @@
 {
   "name": "webapp-dev",
   "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "runArgs": [
+    "--name", "webapp-dev",
+    "--hostname", "webapp-dev",
+    "--label", "project=webapp",
+    "-p","5173:5173"
+  ],
   "workspaceFolder": "/workspaces/webapp",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": { "installZsh": false },
@@ -21,6 +27,10 @@
     "PNPM_HOME": "/home/vscode/.pnpm"
   },
   "onCreateCommand": "sudo mkdir -p /home/vscode/.pnpm-store /workspaces/webapp/node_modules && sudo chown -R vscode:vscode /home/vscode/.pnpm-store /workspaces/webapp/node_modules",
-  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm install",
+  
+  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm -s approve-builds esbuild @tailwindcss/oxide || true && pnpm fetch && pnpm install --prefer-offline --no-frozen-lockfile",
+  
+  "postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && pnpm -v && pnpm -s approve-builds esbuild @tailwindcss/oxide || true && pnpm fetch && pnpm install --prefer-offline --frozen-lockfile",
+  
   "forwardPorts": [5173]
 }
